@@ -1,0 +1,2599 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shivprasad Sanap — Senior-Track GCP Data Engineer &amp; Lakehouse Architect</title>
+<meta name="description" content="Executive developer portfolio of Shivprasad Sanap (Shiv) — GCP Data Engineer &amp; ETL Developer specializing in BigQuery, Apache Iceberg, Snowflake, Cloud Composer, and dbt.">
+<style>
+/* ==========================================================================
+   DESIGN TOKENS & THEME VARIABLES
+   ========================================================================== */
+:root {
+  --bg: #060b16;
+  --bg-elev: #0c1426;
+  --bg-card: rgba(15, 23, 42, 0.78);
+  --bg-card-solid: #0f172a;
+  --bg-glass: rgba(6, 11, 22, 0.76);
+  --bg-subtle: rgba(148, 163, 184, 0.08);
+  --border: rgba(148, 163, 184, 0.16);
+  --border-strong: rgba(56, 189, 248, 0.35);
+
+  --text: #e2e8f0;
+  --text-strong: #f8fafc;
+  --muted: #94a3b8;
+  --dim: #64748b;
+
+  --cyan: #22d3ee;
+  --cyan-soft: rgba(34, 211, 238, 0.14);
+  --indigo: #818cf8;
+  --indigo-soft: rgba(129, 140, 248, 0.15);
+  --emerald: #34d399;
+  --emerald-soft: rgba(52, 211, 153, 0.14);
+  --amber: #fbbf24;
+  --amber-soft: rgba(251, 191, 36, 0.14);
+  --rose: #fb7185;
+  --rose-soft: rgba(251, 113, 133, 0.14);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.38);
+  --shadow-glow: 0 0 0 1px rgba(34, 211, 238, 0.25), 0 12px 36px rgba(14, 165, 233, 0.15);
+
+  --term-bg: #040812;
+  --term-header: #0b1324;
+  --term-text: #d1fae5;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "Fira Code", Consolas, "SFMono-Regular", Menlo, monospace;
+
+  /* SVG node fills */
+  --n-src-bg: #1e160a; --n-src-bd: #f59e0b;
+  --n-gcp-bg: #0b1c36; --n-gcp-bd: #38bdf8;
+  --n-af-bg: #191438;  --n-af-bd: #818cf8;
+  --n-ice-bg: #07261e; --n-ice-bd: #34d399;
+  --n-sf-bg: #07232c;  --n-sf-bd: #22d3ee;
+  --n-dbt-bg: #2a0e1a; --n-dbt-bd: #fb7185;
+}
+
+[data-theme="light"] {
+  --bg: #f4f7fb;
+  --bg-elev: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-card-solid: #ffffff;
+  --bg-glass: rgba(244, 247, 251, 0.85);
+  --bg-subtle: rgba(15, 23, 42, 0.045);
+  --border: rgba(15, 23, 42, 0.11);
+  --border-strong: rgba(2, 132, 199, 0.38);
+
+  --text: #334155;
+  --text-strong: #0f172a;
+  --muted: #64748b;
+  --dim: #94a3b8;
+
+  --cyan: #0284c7;
+  --cyan-soft: rgba(2, 132, 199, 0.1);
+  --indigo: #4f46e5;
+  --indigo-soft: rgba(79, 70, 229, 0.1);
+  --emerald: #059669;
+  --emerald-soft: rgba(5, 150, 105, 0.11);
+  --amber: #d97706;
+  --amber-soft: rgba(217, 119, 6, 0.12);
+  --rose: #e11d48;
+  --rose-soft: rgba(225, 29, 72, 0.1);
+
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.09);
+  --shadow-glow: 0 0 0 1px rgba(2, 132, 199, 0.28), 0 12px 28px rgba(2, 132, 199, 0.12);
+
+  --term-bg: #0b1220;
+  --term-header: #162033;
+  --term-text: #e2e8f0;
+
+  --n-src-bg: #fffbeb; --n-src-bd: #d97706;
+  --n-gcp-bg: #eff6ff; --n-gcp-bd: #0284c7;
+  --n-af-bg: #eef2ff;  --n-af-bd: #4f46e5;
+  --n-ice-bg: #ecfdf5; --n-ice-bd: #059669;
+  --n-sf-bg: #ecfeff;  --n-sf-bd: #0891b2;
+  --n-dbt-bg: #fff1f2; --n-dbt-bd: #e11d48;
+}
+
+/* ==========================================================================
+   BASE RESET & LAYOUT
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+code, pre, .mono { font-family: var(--font-mono); }
+a { color: var(--cyan); text-decoration: none; }
+button { font-family: inherit; }
+img, svg { max-width: 100%; }
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+section {
+  padding: 84px 0;
+  position: relative;
+  scroll-margin-top: 74px;
+}
+
+/* Subtle telemetry grid backdrop */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(34, 211, 238, 0.06), transparent 38%),
+    radial-gradient(circle at 85% 25%, rgba(129, 140, 248, 0.06), transparent 40%),
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px;
+  background-position: 0 0;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Scroll Progress Bar */
+#scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--indigo), var(--emerald));
+  z-index: 120;
+  transition: width 0.08s linear;
+}
+
+/* ==========================================================================
+   STICKY GLASSMORPHIC NAVBAR
+   ========================================================================== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  height: 66px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-strong);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--cyan), var(--indigo));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(34, 211, 238, 0.25);
+}
+.brand small {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.1;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-links a {
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 7px 11px;
+  border-radius: 9px;
+  transition: color 0.18s, background 0.18s;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--text-strong);
+  background: var(--bg-subtle);
+}
+.nav-links a.active {
+  color: var(--cyan);
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 11px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.18s, transform 0.15s, color 0.18s;
+}
+.icon-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-strong);
+  transform: translateY(-1px);
+}
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.menu-toggle {
+  display: none;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  justify-content: center;
+}
+.mobile-drawer {
+  display: none;
+  border-top: 1px solid var(--border);
+  padding: 12px 22px 18px;
+  background: var(--bg-elev);
+}
+.mobile-drawer.open { display: block; }
+.mobile-drawer a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--text);
+  font-weight: 500;
+}
+.mobile-drawer a:hover { background: var(--bg-subtle); color: var(--cyan); }
+
+/* ==========================================================================
+   BUTTONS, CARDS, HEADINGS, PILLS
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-strong);
+  cursor: pointer;
+  transition: transform 0.16s, border-color 0.18s, box-shadow 0.2s, background 0.18s;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--cyan), var(--indigo));
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 8px 24px rgba(34, 211, 238, 0.22);
+}
+.btn-primary:hover {
+  box-shadow: 0 12px 30px rgba(34, 211, 238, 0.34);
+  color: #ffffff;
+}
+.btn-sm { padding: 7px 12px; font-size: 12.5px; border-radius: 8px; }
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.card-hover:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow);
+}
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cyan);
+  margin-bottom: 8px;
+}
+.eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 10px var(--emerald);
+}
+.section-title {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.2;
+  color: var(--text-strong);
+  letter-spacing: -0.02em;
+}
+.section-sub {
+  margin: 8px 0 0;
+  color: var(--muted);
+  max-width: 680px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.pill-cyan { background: var(--cyan-soft); border-color: rgba(34, 211, 238, 0.28); color: var(--cyan); }
+.pill-indigo { background: var(--indigo-soft); border-color: rgba(129, 140, 248, 0.28); color: var(--indigo); }
+.pill-emerald { background: var(--emerald-soft); border-color: rgba(52, 211, 153, 0.28); color: var(--emerald); }
+.pill-amber { background: var(--amber-soft); border-color: rgba(251, 191, 36, 0.28); color: var(--amber); }
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+.hero {
+  position: relative;
+  padding: 78px 0 64px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+#heroCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.72;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 32px;
+  align-items: center;
+}
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: var(--emerald-soft);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  color: var(--emerald);
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--emerald);
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.65); }
+  70% { box-shadow: 0 0 0 9px rgba(52, 211, 153, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+}
+.hero h1 {
+  margin: 0;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text-strong);
+}
+.hero h1 .grad {
+  background: linear-gradient(120deg, var(--cyan), var(--indigo) 55%, var(--emerald));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.role-line {
+  margin: 14px 0 18px;
+  font-family: var(--font-mono);
+  font-size: clamp(15px, 2vw, 19px);
+  color: var(--cyan);
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.15em;
+  background: var(--cyan);
+  animation: blink 0.9s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.hero-desc {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 620px;
+  margin: 0 0 26px;
+}
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Telemetry card on hero right */
+.telemetry-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+}
+.telemetry-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+.telemetry-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13px;
+}
+.telemetry-row:last-child { border-bottom: 0; }
+.telemetry-row span:first-child { color: var(--muted); }
+.telemetry-row strong { color: var(--text-strong); font-family: var(--font-mono); font-size: 12.5px; }
+
+/* KPI Strip */
+.kpi-strip {
+  position: relative;
+  z-index: 2;
+  margin-top: 42px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.kpi-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.kpi-item .val {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--text-strong);
+  letter-spacing: -0.01em;
+}
+.kpi-item .lbl {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   1. ARCHITECTURE BLUEPRINT EXPLORER
+   ========================================================================== */
+.arch-wrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+.svg-frame {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  overflow-x: auto;
+}
+.arch-svg {
+  width: 100%;
+  min-width: 780px;
+  height: auto;
+  display: block;
+}
+.arch-node { cursor: pointer; transition: filter 0.2s; }
+.arch-node rect { stroke-width: 1.8; transition: stroke-width 0.18s, filter 0.18s; }
+.arch-node:hover rect { filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.38)); }
+.arch-node.selected rect { stroke-width: 3.2; filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.55)); }
+.arch-node.src rect { fill: var(--n-src-bg); stroke: var(--n-src-bd); }
+.arch-node.gcp rect { fill: var(--n-gcp-bg); stroke: var(--n-gcp-bd); }
+.arch-node.af rect  { fill: var(--n-af-bg);  stroke: var(--n-af-bd); }
+.arch-node.ice rect { fill: var(--n-ice-bg); stroke: var(--n-ice-bd); }
+.arch-node.sf rect  { fill: var(--n-sf-bg);  stroke: var(--n-sf-bd); }
+.arch-node.dbt rect { fill: var(--n-dbt-bg); stroke: var(--n-dbt-bd); }
+.svg-title { font-size: 13px; font-weight: 700; fill: var(--text-strong); }
+.svg-sub { font-size: 10.5px; fill: var(--muted); font-family: var(--font-mono); }
+.svg-lbl { font-size: 10.5px; fill: var(--muted); font-family: var(--font-mono); }
+.flow-line {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 2;
+  stroke-dasharray: 8 6;
+  animation: flowDash 1.2s linear infinite;
+}
+@keyframes flowDash { to { stroke-dashoffset: -28; } }
+@media (prefers-reduced-motion: reduce) { .flow-line { animation: none; } }
+
+.inspector {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--cyan);
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+}
+.inspector h3 { margin: 0 0 6px; color: var(--text-strong); font-size: 18px; }
+.inspector p { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+.pattern-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.pattern-list li {
+  display: flex;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--text);
+  background: var(--bg-subtle);
+  padding: 8px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+}
+.pattern-list li::before {
+  content: "▸";
+  color: var(--emerald);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   2. INTERACTIVE CLI / SQL TERMINAL ("ShivOS Terminal")
+   ========================================================================== */
+.terminal-shell {
+  background: var(--term-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.term-bar {
+  background: var(--term-header);
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+.term-dots { display: flex; gap: 7px; }
+.term-dots span { width: 11px; height: 11px; border-radius: 50%; }
+.term-dots span:nth-child(1) { background: #ef4444; }
+.term-dots span:nth-child(2) { background: #f59e0b; }
+.term-dots span:nth-child(3) { background: #10b981; }
+.term-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #94a3b8;
+}
+.term-chips {
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.55);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+.cmd-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  background: rgba(14, 165, 233, 0.1);
+  color: #7dd3fc;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.12s;
+}
+.cmd-chip:hover {
+  background: rgba(14, 165, 233, 0.24);
+  transform: translateY(-1px);
+}
+.term-body {
+  padding: 16px 18px;
+  min-height: 290px;
+  max-height: 410px;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--term-text);
+}
+.term-line { margin-bottom: 10px; white-space: pre-wrap; word-break: break-word; }
+.term-prompt { color: #34d399; font-weight: 700; }
+.term-cmd { color: #f8fafc; }
+.term-info { color: #94a3b8; }
+.term-accent { color: #38bdf8; }
+.term-warn { color: #fbbf24; }
+.term-err { color: #fb7185; }
+.term-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-top: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(15, 23, 42, 0.7);
+}
+.term-input-row input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #f8fafc;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+}
+
+/* ==========================================================================
+   3. PROJECTS & FILTER PILLS
+   ========================================================================== */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.filter-pill {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.16s;
+}
+.filter-pill:hover { color: var(--text-strong); border-color: var(--border-strong); }
+.filter-pill.active {
+  background: linear-gradient(135deg, var(--cyan), var(--indigo));
+  color: #fff;
+  border-color: transparent;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.project-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  cursor: pointer;
+}
+.project-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.project-card h3 {
+  margin: 8px 0 6px;
+  font-size: 17.5px;
+  line-height: 1.3;
+  color: var(--text-strong);
+}
+.project-card p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.project-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--cyan);
+}
+
+/* ==========================================================================
+   4. TECH STACK & RADAR MATRIX
+   ========================================================================== */
+.skills-layout {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 20px;
+  align-items: start;
+}
+.skill-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.skill-row {
+  margin-bottom: 14px;
+}
+.skill-row:last-child { margin-bottom: 0; }
+.skill-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  margin-bottom: 6px;
+}
+.skill-meta strong { color: var(--text-strong); }
+.skill-meta span { font-family: var(--font-mono); font-size: 12px; color: var(--cyan); }
+.skill-track {
+  height: 9px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.skill-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cyan), var(--indigo));
+  transition: width 0.5s ease;
+}
+.radar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.radar-svg { width: 100%; max-width: 310px; height: auto; }
+
+/* ==========================================================================
+   5. EXPERIENCE & CERTIFICATIONS TIMELINE
+   ========================================================================== */
+.exp-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 22px;
+  align-items: start;
+}
+.timeline {
+  position: relative;
+  padding-left: 28px;
+  border-left: 2px solid var(--border-strong);
+  display: grid;
+  gap: 22px;
+}
+.tl-item {
+  position: relative;
+}
+.tl-item::before {
+  content: "";
+  position: absolute;
+  left: -36px;
+  top: 22px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--cyan);
+  box-shadow: 0 0 0 4px var(--cyan-soft);
+}
+.tl-period {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--cyan);
+  margin-bottom: 4px;
+}
+.tl-item h3 { margin: 0 0 4px; color: var(--text-strong); font-size: 17px; }
+.tl-org { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+.tl-bullets {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text);
+  font-size: 13.8px;
+}
+.tl-bullets li { margin-bottom: 6px; }
+
+.cert-stack { display: grid; gap: 14px; }
+.cert-badge {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.cert-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 14px;
+}
+.cert-badge h4 { margin: 0 0 4px; color: var(--text-strong); font-size: 15px; }
+.cert-badge p { margin: 0; font-size: 13px; color: var(--muted); }
+
+/* ==========================================================================
+   6. BEYOND CODE — CREATIVE LAB
+   ========================================================================== */
+.creative-card {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.12), rgba(34, 211, 238, 0.08) 55%, rgba(52, 211, 153, 0.08));
+  border: 1px solid var(--border-strong);
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 24px;
+  align-items: center;
+}
+.creative-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.creative-stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+.creative-stat strong { display: block; color: var(--text-strong); font-size: 14px; }
+.creative-stat span { font-size: 11.5px; color: var(--muted); }
+
+/* ==========================================================================
+   7. CONTACT SECTION & FOOTER
+   ========================================================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 22px;
+}
+.contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 12px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.contact-row small { display: block; color: var(--muted); font-size: 11.5px; }
+.contact-row strong { color: var(--text-strong); font-family: var(--font-mono); font-size: 13px; word-break: break-all; }
+
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 6px;
+}
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--text-strong);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.18s;
+}
+.form-group input:focus, .form-group textarea:focus {
+  border-color: var(--cyan);
+}
+.form-error {
+  color: var(--rose);
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0 42px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ==========================================================================
+   MODALS (PROJECT DEEP DIVE & COMMAND PALETTE) & TOAST
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(8px);
+  z-index: 150;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-backdrop.open { display: flex; }
+.modal-box {
+  width: 100%;
+  max-width: 720px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  box-shadow: var(--shadow-md);
+}
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.modal-head h3 { margin: 6px 0 0; font-size: 22px; color: var(--text-strong); }
+.modal-section {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.modal-section h4 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cyan);
+  font-family: var(--font-mono);
+}
+
+/* Command Palette */
+.cmd-box {
+  width: 100%;
+  max-width: 580px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.cmd-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.cmd-search input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text-strong);
+  font-size: 15px;
+}
+.cmd-list {
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 8px;
+}
+.cmd-item {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13.5px;
+}
+.cmd-item.active, .cmd-item:hover {
+  background: var(--cyan-soft);
+  color: var(--text-strong);
+}
+.cmd-item small {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  background: var(--bg-card-solid);
+  color: var(--text-strong);
+  border: 1px solid var(--border-strong);
+  border-left: 4px solid var(--emerald);
+  padding: 12px 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  font-size: 13.5px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .hero-content, .skills-layout, .exp-grid, .creative-card, .contact-grid, .inspector {
+    grid-template-columns: 1fr;
+  }
+  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 780px) {
+  .nav-links, .hide-sm { display: none; }
+  .menu-toggle { display: inline-flex; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .kpi-strip { grid-template-columns: 1fr 1fr; }
+  section { padding: 60px 0; }
+  .hero { padding: 54px 0 46px; }
+}
+@media (max-width: 480px) {
+  .kpi-strip, .creative-metrics { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   PRINT / PDF RESUME STYLES
+   ========================================================================== */
+@media print {
+  * { animation: none !important; transition: none !important; }
+  body { background: #ffffff !important; color: #0f172a !important; font-size: 12px; }
+  body::before, #scrollProgress, .navbar, #heroCanvas, #terminal, .filter-bar,
+  .hero-ctas, .modal-backdrop, .toast, #contactFormCard, .nav-actions { display: none !important; }
+  section { padding: 18px 0 !important; break-inside: avoid; }
+  .card, .kpi-item, .telemetry-card, .svg-frame {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    color: #0f172a !important;
+  }
+  .hero { border-bottom: 2px solid #0f172a !important; padding: 12px 0 18px !important; }
+  .hero h1, .hero h1 .grad, .section-title, h3, strong { color: #0f172a !important; -webkit-text-fill-color: #0f172a !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .projects-grid { grid-template-columns: 1fr 1fr !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="scrollProgress" aria-hidden="true"></div>
+
+<!-- ========================================================================
+     STICKY GLASSMORPHIC NAVBAR
+     ======================================================================== -->
+<header class="navbar">
+  <div class="container nav-inner">
+    <a href="#top" class="brand" aria-label="Shivprasad Sanap Home">
+      <span class="brand-mark">SS</span>
+      <span>Shivprasad Sanap<small>GCP Data Engineer · Lakehouse</small></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary Navigation">
+      <a href="#architecture">Architecture</a>
+      <a href="#terminal">Terminal</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button type="button" class="icon-btn" id="cmdBtn" title="Open Command Palette (Ctrl+K)">
+        <span>Search</span>
+        <span class="kbd">Ctrl+K</span>
+      </button>
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="Toggle Dark or Light Mode" title="Toggle Theme">
+        <span id="themeIcon">☀</span>
+      </button>
+      <button type="button" class="icon-btn hide-sm" id="printBtn" title="Print or Save as PDF Resume">
+        <span>PDF Resume</span>
+      </button>
+      <button type="button" class="icon-btn menu-toggle" id="menuToggle" aria-label="Toggle Menu">☰</button>
+    </div>
+  </div>
+  <div class="mobile-drawer" id="mobileDrawer">
+    <a href="#architecture">Architecture Blueprint</a>
+    <a href="#terminal">ShivOS Terminal</a>
+    <a href="#projects">Case Studies</a>
+    <a href="#skills">Tech Stack Matrix</a>
+    <a href="#experience">Experience &amp; Certifications</a>
+    <a href="#creative">Creative Lab</a>
+    <a href="#contact">Contact</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ========================================================================
+     HERO SECTION
+     ======================================================================== -->
+<section class="hero">
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="container">
+    <div class="hero-content">
+      <div>
+        <div class="status-chip">
+          <span class="pulse-dot"></span>
+          <span>Pune, India · Open to Senior Data Engineering Roles</span>
+        </div>
+        <h1><span class="grad">Shivprasad Sanap</span></h1>
+        <div class="role-line" aria-live="polite">
+          <span>&gt;</span>
+          <span id="typedRole">GCP Data Engineer</span>
+          <span class="cursor" aria-hidden="true"></span>
+        </div>
+        <p class="hero-desc">
+          Senior-track GCP Data Engineer &amp; ETL Developer architecting resilient, idempotent, petabyte-scale streaming and batch lakehouse pipelines across <strong>Google Cloud BigQuery</strong>, <strong>BigLake Apache Iceberg</strong>, <strong>Snowflake</strong>, <strong>Cloud Composer (Airflow)</strong>, and <strong>dbt</strong>.
+        </p>
+        <div class="hero-ctas">
+          <a href="#architecture" class="btn btn-primary">Explore Architecture</a>
+          <a href="#terminal" class="btn">Launch Interactive Terminal</a>
+          <button type="button" class="btn" id="heroCopyEmail">Copy Email</button>
+        </div>
+      </div>
+
+      <aside class="telemetry-card" aria-label="Engineering Telemetry Snapshot">
+        <div class="telemetry-head">
+          <span>LAKEHOUSE_TELEMETRY :: PROD</span>
+          <span class="pill pill-emerald">● HEALTHY</span>
+        </div>
+        <div class="telemetry-row">
+          <span>Primary Cloud</span>
+          <strong>Google Cloud Platform</strong>
+        </div>
+        <div class="telemetry-row">
+          <span>Open Table Format</span>
+          <strong>BigLake · Apache Iceberg</strong>
+        </div>
+        <div class="telemetry-row">
+          <span>Warehouses</span>
+          <strong>BigQuery · Snowflake</strong>
+        </div>
+        <div class="telemetry-row">
+          <span>Orchestration</span>
+          <strong>Cloud Composer · dbt Cloud</strong>
+        </div>
+        <div class="telemetry-row">
+          <span>Reliability Pattern</span>
+          <strong>Idempotent MERGE · 0-Dup</strong>
+        </div>
+        <div class="telemetry-row">
+          <span>AI Engineering</span>
+          <strong>GenAI Certified · Cortex</strong>
+        </div>
+      </aside>
+    </div>
+
+    <div class="kpi-strip">
+      <div class="kpi-item">
+        <span class="val">3+ Years</span>
+        <span class="lbl">Production Data Engineering</span>
+      </div>
+      <div class="kpi-item">
+        <span class="val">GCP · Snowflake · dbt</span>
+        <span class="lbl">Multi-Cloud Lakehouse Stack</span>
+      </div>
+      <div class="kpi-item">
+        <span class="val">Streaming &amp; Batch</span>
+        <span class="lbl">Pub/Sub → Iceberg → Conformed</span>
+      </div>
+      <div class="kpi-item">
+        <span class="val">GenAI Certified</span>
+        <span class="lbl">AI-Augmented ETL Workflows</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     1. INTERACTIVE ARCHITECTURE BLUEPRINT EXPLORER
+     ======================================================================== -->
+<section id="architecture">
+  <div class="container reveal">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">01 · Production Blueprint</div>
+        <h2 class="section-title">Interactive Cloud Lakehouse Architecture</h2>
+        <p class="section-sub">Click any stage in the live pipeline below to inspect the exact engineering guarantees, partitioning, and idempotency patterns implemented in production.</p>
+      </div>
+      <span class="pill pill-cyan">Click any node to inspect</span>
+    </div>
+
+    <div class="arch-wrap">
+      <div class="svg-frame">
+        <svg id="archSvg" class="arch-svg" viewBox="0 0 1120 270" role="img" aria-label="Interactive Lakehouse Pipeline Diagram">
+          <defs>
+            <marker id="arrowHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
+              <path d="M0 1 L9 5 L0 9 z" fill="var(--cyan)"></path>
+            </marker>
+          </defs>
+
+          <!-- Animated Data Flow Edges -->
+          <path class="flow-line" d="M168 115 H208" marker-end="url(#arrowHead)"/>
+          <path class="flow-line" d="M362 115 H402" marker-end="url(#arrowHead)"/>
+          <path class="flow-line" d="M556 115 H596" marker-end="url(#arrowHead)"/>
+          <path class="flow-line" d="M750 115 H790" marker-end="url(#arrowHead)"/>
+          <path class="flow-line" d="M944 115 H984" marker-end="url(#arrowHead)"/>
+
+          <!-- Edge Labels -->
+          <text class="svg-lbl" x="188" y="102" text-anchor="middle">JSON</text>
+          <text class="svg-lbl" x="382" y="102" text-anchor="middle">72h</text>
+          <text class="svg-lbl" x="576" y="102" text-anchor="middle">MERGE</text>
+          <text class="svg-lbl" x="770" y="102" text-anchor="middle">Meta</text>
+          <text class="svg-lbl" x="964" y="102" text-anchor="middle">SQL</text>
+
+          <!-- Node 1: Pub/Sub -->
+          <g class="arch-node src selected" data-node="pubsub" tabindex="0" role="button" aria-label="Pub/Sub Streaming">
+            <rect x="14" y="65" width="154" height="100" rx="14"/>
+            <text class="svg-title" x="91" y="103" text-anchor="middle">Pub/Sub Stream</text>
+            <text class="svg-sub" x="91" y="124" text-anchor="middle">Event Snapshots</text>
+            <text class="svg-sub" x="91" y="141" text-anchor="middle">BQ Subscription</text>
+          </g>
+
+          <!-- Node 2: BigQuery Raw -->
+          <g class="arch-node gcp" data-node="bq_raw" tabindex="0" role="button" aria-label="BigQuery Raw Layer">
+            <rect x="208" y="65" width="154" height="100" rx="14"/>
+            <text class="svg-title" x="285" y="103" text-anchor="middle">BigQuery Raw</text>
+            <text class="svg-sub" x="285" y="124" text-anchor="middle">DAY(publish_time)</text>
+            <text class="svg-sub" x="285" y="141" text-anchor="middle">PII Policy Tagged</text>
+          </g>
+
+          <!-- Node 3: Cloud Composer / Airflow -->
+          <g class="arch-node af" data-node="composer" tabindex="0" role="button" aria-label="Cloud Composer Airflow">
+            <rect x="402" y="65" width="154" height="100" rx="14"/>
+            <text class="svg-title" x="479" y="103" text-anchor="middle">Cloud Composer</text>
+            <text class="svg-sub" x="479" y="124" text-anchor="middle">Idempotent MERGE</text>
+            <text class="svg-sub" x="479" y="141" text-anchor="middle">Dry-Run + Audit</text>
+          </g>
+
+          <!-- Node 4: BigQuery-Managed Iceberg -->
+          <g class="arch-node ice" data-node="iceberg" tabindex="0" role="button" aria-label="BigQuery Managed Apache Iceberg">
+            <rect x="596" y="65" width="154" height="100" rx="14"/>
+            <text class="svg-title" x="673" y="103" text-anchor="middle">Apache Iceberg</text>
+            <text class="svg-sub" x="673" y="124" text-anchor="middle">BigLake Parquet</text>
+            <text class="svg-sub" x="673" y="141" text-anchor="middle">Clustered Table</text>
+          </g>
+
+          <!-- Node 5: Snowflake Conformed -->
+          <g class="arch-node sf" data-node="snowflake" tabindex="0" role="button" aria-label="Snowflake Conformed Layer">
+            <rect x="790" y="65" width="154" height="100" rx="14"/>
+            <text class="svg-title" x="867" y="103" text-anchor="middle">Snowflake</text>
+            <text class="svg-sub" x="867" y="124" text-anchor="middle">Conformed Layer</text>
+            <text class="svg-sub" x="867" y="141" text-anchor="middle">Iceberg Refresh</text>
+          </g>
+
+          <!-- Node 6: dbt Cloud -->
+          <g class="arch-node dbt" data-node="dbt" tabindex="0" role="button" aria-label="dbt Cloud Transformation">
+            <rect x="984" y="65" width="124" height="100" rx="14"/>
+            <text class="svg-title" x="1046" y="103" text-anchor="middle">dbt Cloud</text>
+            <text class="svg-sub" x="1046" y="124" text-anchor="middle">Incremental</text>
+            <text class="svg-sub" x="1046" y="141" text-anchor="middle">Data Marts</text>
+          </g>
+
+          <!-- Governance / Observability Footer Strip -->
+          <rect x="14" y="196" width="1094" height="48" rx="10" fill="var(--bg-subtle)" stroke="var(--border)" stroke-dasharray="5 5"/>
+          <text class="svg-sub" x="561" y="224" text-anchor="middle">Cross-Cutting Controls: 72h Partition Pruning · Epoch Stale-Event Guard · JSON Fingerprint Delta · Cloud SQL Audit · Automated Metadata Sync</text>
+        </svg>
+      </div>
+
+      <div class="inspector" id="archInspector" aria-live="polite">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     2. INTERACTIVE CLI / SQL TERMINAL ("ShivOS Terminal")
+     ======================================================================== -->
+<section id="terminal">
+  <div class="container reveal">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">02 · Interactive Shell</div>
+        <h2 class="section-title">ShivOS Data Engineering Terminal</h2>
+        <p class="section-sub">Query my profile like a data warehouse. Click any quick command below or type directly into the shell.</p>
+      </div>
+    </div>
+
+    <div class="terminal-shell">
+      <div class="term-bar">
+        <div class="term-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="term-title">shiv@gcp-lakehouse:~/portfolio (zsh · sql-mode)</div>
+        <div class="term-title">v2026.11</div>
+      </div>
+
+      <div class="term-chips" aria-label="Quick Terminal Commands">
+        <button type="button" class="cmd-chip" data-cmd="help">help</button>
+        <button type="button" class="cmd-chip" data-cmd="whoami">whoami</button>
+        <button type="button" class="cmd-chip" data-cmd="skills">skills</button>
+        <button type="button" class="cmd-chip" data-cmd="projects">projects</button>
+        <button type="button" class="cmd-chip" data-cmd="certifications">certifications</button>
+        <button type="button" class="cmd-chip" data-cmd="SELECT * FROM experience;">SELECT * FROM experience;</button>
+        <button type="button" class="cmd-chip" data-cmd="contact">contact</button>
+        <button type="button" class="cmd-chip" data-cmd="theme">theme</button>
+        <button type="button" class="cmd-chip" data-cmd="clear">clear</button>
+      </div>
+
+      <div class="term-body" id="termOutput" role="log" aria-live="polite"></div>
+
+      <form class="term-input-row" id="termForm" autocomplete="off">
+        <span class="term-prompt">shiv@lakehouse:~$</span>
+        <input type="text" id="termInput" placeholder="Type a command (e.g., help, SELECT * FROM experience;)" aria-label="Terminal Command Input">
+        <button type="submit" class="btn btn-sm">Run</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     3. FILTERABLE PROJECT CASE STUDIES
+     ======================================================================== -->
+<section id="projects">
+  <div class="container reveal">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">03 · Production Case Studies</div>
+        <h2 class="section-title">Enterprise Data Engineering Projects</h2>
+        <p class="section-sub">Filter by platform or click any case study card for a deep dive into the business problem, lakehouse design, and measurable impact.</p>
+      </div>
+    </div>
+
+    <div class="filter-bar" id="projectFilters" role="tablist" aria-label="Project Categories">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     4. INTERACTIVE TECH STACK & PROFICIENCY MATRIX
+     ======================================================================== -->
+<section id="skills">
+  <div class="container reveal">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">04 · Capability Matrix</div>
+        <h2 class="section-title">Tech Stack &amp; Engineering Proficiency</h2>
+        <p class="section-sub">Balanced depth across cloud-native ingestion, open table formats, dimensional modeling, orchestration, and AI-assisted delivery.</p>
+      </div>
+    </div>
+
+    <div class="skills-layout">
+      <div class="card">
+        <div class="skill-tabs" id="skillTabs" role="tablist"></div>
+        <div id="skillBars"></div>
+      </div>
+
+      <div class="card radar-card">
+        <h3 style="margin:0 0 6px;color:var(--text-strong);font-size:17px">Core Domain Radar</h3>
+        <p style="margin:0 0 14px;font-size:13px;color:var(--muted)">Relative strength across modern data engineering pillars</p>
+        <svg id="radarSvg" class="radar-svg" viewBox="0 0 320 300" role="img" aria-label="Engineering Capability Radar Chart"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     5. EXPERIENCE & CERTIFICATIONS TIMELINE
+     ======================================================================== -->
+<section id="experience">
+  <div class="container reveal">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">05 · Career &amp; Credentials</div>
+        <h2 class="section-title">Experience &amp; Certifications</h2>
+        <p class="section-sub">3+ years delivering mission-critical GCP, BigQuery, Iceberg, Snowflake, and Airflow pipelines for global payments and FinTech analytics.</p>
+      </div>
+    </div>
+
+    <div class="exp-grid">
+      <div class="timeline">
+        <article class="card tl-item">
+          <div class="tl-period">2024 – PRESENT · PUNE, INDIA</div>
+          <h3>GCP Data Engineer — Cloud Lakehouse &amp; Cross-Warehouse ETL</h3>
+          <div class="tl-org">Global Payments &amp; FinTech Lakehouse Engineering</div>
+          <ul class="tl-bullets">
+            <li>Architected and delivered real-time Pub/Sub to BigQuery-managed Apache Iceberg pipelines with epoch-based stale-event protection, JSON fingerprint delta detection, and zero-duplicate idempotent MERGE logic.</li>
+            <li>Built end-to-end Cloud Composer (Airflow) DAGs orchestrating dry-run SQL gates, BigLake metadata exports, Snowflake Iceberg refreshes, and automated dbt Cloud job triggers.</li>
+            <li>Implemented governance controls including column-level PII policy tagging, 72-hour partition pruning, Cloud SQL audit telemetry, and comprehensive unit test verification suites across DEV, QA, and PROD.</li>
+          </ul>
+        </article>
+
+        <article class="card tl-item">
+          <div class="tl-period">2023 – 2024 · PUNE, INDIA</div>
+          <h3>ETL &amp; Data Engineer — BigQuery, PySpark &amp; Snowflake</h3>
+          <div class="tl-org">Enterprise Merchant Analytics &amp; Reporting Platform</div>
+          <ul class="tl-bullets">
+            <li>Developed scalable BigQuery SQL, PySpark, and Bash pipelines powering multi-region merchant hierarchy, settlement, dispute, and fee reporting datasets.</li>
+            <li>Designed deterministic surrogate-key generation, SCD Type 2 history handling, and automated source-to-target reconciliation scripts reducing manual QA cycles.</li>
+            <li>Automated Bronze-to-Conformed Snowflake ingestion via Snowpipe, External Tables, and incremental dbt models integrated with CI/CD release workflows.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="cert-stack">
+        <div class="card cert-badge">
+          <div class="cert-icon" style="background:var(--indigo-soft);color:var(--indigo)">AI</div>
+          <div>
+            <span class="pill pill-indigo" style="margin-bottom:6px">2026</span>
+            <h4>Role-Based GenAI Data Engineer / ETL Developer Certification</h4>
+            <p>Applied Generative AI for SQL optimization, automated source-to-target mapping audits, test-case generation, and resilient ETL engineering.</p>
+          </div>
+        </div>
+
+        <div class="card cert-badge">
+          <div class="cert-icon" style="background:var(--cyan-soft);color:var(--cyan)">SF</div>
+          <div>
+            <span class="pill pill-cyan" style="margin-bottom:6px">2026</span>
+            <h4>Snowflake Technical Engineering Trainings</h4>
+            <p>Hands-on mastery of Snowflake Iceberg tables, Snowpipe ingestion, incremental dbt modeling, performance tuning, and Cortex AI workflows.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4 style="margin:0 0 8px;color:var(--text-strong);font-size:15px">Engineering Standards</h4>
+          <div class="tag-row">
+            <span class="pill">Zero-Duplicate Guarantees</span>
+            <span class="pill">Dry-Run CI Gates</span>
+            <span class="pill">Partition Pruning</span>
+            <span class="pill">PII Policy Tags</span>
+            <span class="pill">Automated Audit Logs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     6. BEYOND CODE — CREATIVE LAB
+     ======================================================================== -->
+<section id="creative">
+  <div class="container reveal">
+    <div class="card creative-card">
+      <div>
+        <div class="eyebrow">06 · Beyond Code</div>
+        <h2 class="section-title" style="font-size:26px">Shivaay AI Studios — Creative Lab</h2>
+        <p style="color:var(--muted);margin:10px 0 16px">
+          Outside of production data lakes, I run <strong>Shivaay AI Studios</strong>—an experimental creative studio blending AI-assisted music production, multilingual songwriting, and 3D visual storytelling. Exploring generative media sharpens the same prompt engineering, workflow automation, and iterative design thinking I bring to data engineering.
+        </p>
+        <div class="tag-row">
+          <span class="pill pill-indigo">AI Music Production</span>
+          <span class="pill pill-cyan">Multilingual Songwriting</span>
+          <span class="pill pill-emerald">3D Visual Storytelling</span>
+        </div>
+      </div>
+      <div class="creative-metrics">
+        <div class="creative-stat">
+          <strong>Audio</strong>
+          <span>AI-Assisted Composition</span>
+        </div>
+        <div class="creative-stat">
+          <strong>Lyrics</strong>
+          <span>Multilingual Narratives</span>
+        </div>
+        <div class="creative-stat">
+          <strong>Visuals</strong>
+          <span>3D Concept Motion</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================
+     7. CONTACT SECTION
+     ======================================================================== -->
+<section id="contact">
+  <div class="container reveal">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">07 · Get In Touch</div>
+        <h2 class="section-title">Let's Architect Something Resilient</h2>
+        <p class="section-sub">Based in Pune, India. Open to Senior GCP Data Engineer, Lakehouse Architect, and Snowflake/dbt engineering conversations.</p>
+      </div>
+    </div>
+
+    <div class="contact-grid">
+      <div class="card">
+        <h3 style="margin:0 0 14px;color:var(--text-strong)">Direct Channels</h3>
+
+        <div class="contact-row">
+          <div>
+            <small>Email (Editable Placeholder)</small>
+            <strong id="emailVal">shivprasad.sanap@example.com</strong>
+          </div>
+          <button type="button" class="btn btn-sm" data-copy="shivprasad.sanap@example.com">Copy</button>
+        </div>
+
+        <div class="contact-row">
+          <div>
+            <small>LinkedIn</small>
+            <strong>linkedin.com/in/shivprasad-sanap</strong>
+          </div>
+          <button type="button" class="btn btn-sm" data-copy="https://linkedin.com/in/shivprasad-sanap">Copy</button>
+        </div>
+
+        <div class="contact-row">
+          <div>
+            <small>GitHub</small>
+            <strong>github.com/shivprasad-sanap</strong>
+          </div>
+          <button type="button" class="btn btn-sm" data-copy="https://github.com/shivprasad-sanap">Copy</button>
+        </div>
+
+        <div class="contact-row" style="margin-bottom:0">
+          <div>
+            <small>Location &amp; Timezone</small>
+            <strong>Pune, Maharashtra, India (IST · UTC+5:30)</strong>
+          </div>
+          <span class="pill pill-emerald">Active</span>
+        </div>
+      </div>
+
+      <div class="card" id="contactFormCard">
+        <h3 style="margin:0 0 14px;color:var(--text-strong)">Send a Quick Note</h3>
+        <form id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="cName">Your Name</label>
+            <input type="text" id="cName" placeholder="Recruiter / Engineering Manager" required>
+            <div class="form-error" id="errName">Please enter your name.</div>
+          </div>
+          <div class="form-group">
+            <label for="cEmail">Work Email</label>
+            <input type="email" id="cEmail" placeholder="name@company.com" required>
+            <div class="form-error" id="errEmail">Please enter a valid email address.</div>
+          </div>
+          <div class="form-group">
+            <label for="cMsg">Message</label>
+            <textarea id="cMsg" rows="4" placeholder="Role details, architecture challenge, or collaboration idea..." required></textarea>
+            <div class="form-error" id="errMsg">Please write a brief message (at least 10 characters).</div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%">Dispatch Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© 2026 <strong>Shivprasad Sanap</strong> · Cloud Lakehouse &amp; GCP Data Engineering Portfolio</div>
+    <div class="mono" style="font-size:12px">Press <span class="kbd">Ctrl+K</span> for Command Palette · Single-File Self-Contained</div>
+  </div>
+</footer>
+
+<!-- ========================================================================
+     PROJECT DEEP-DIVE MODAL
+     ======================================================================== -->
+<div class="modal-backdrop" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <span class="pill pill-cyan" id="pmCat"></span>
+        <h3 id="pmTitle"></h3>
+      </div>
+      <button type="button" class="icon-btn" id="pmClose" aria-label="Close modal">✕</button>
+    </div>
+    <div class="tag-row" id="pmTags"></div>
+    <div class="modal-section">
+      <h4>Business &amp; Technical Problem</h4>
+      <p id="pmProblem" style="margin:0;color:var(--text)"></p>
+    </div>
+    <div class="modal-section">
+      <h4>Architecture &amp; Engineering Solution</h4>
+      <p id="pmSolution" style="margin:0;color:var(--text)"></p>
+    </div>
+    <div class="modal-section">
+      <h4>Key Engineering Impact</h4>
+      <ul id="pmImpact" style="margin:6px 0 0;padding-left:18px;color:var(--text)"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================
+     COMMAND PALETTE (CTRL+K / CMD+K)
+     ======================================================================== -->
+<div class="modal-backdrop" id="cmdModal" role="dialog" aria-modal="true" aria-label="Command Palette">
+  <div class="cmd-box">
+    <div class="cmd-search">
+      <span class="mono" style="color:var(--cyan)">&gt;_</span>
+      <input type="text" id="cmdInput" placeholder="Jump to section, project, or action..." autocomplete="off">
+      <span class="kbd">ESC</span>
+    </div>
+    <div class="cmd-list" id="cmdList"></div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ========================================================================
+     DATA DEFINITIONS
+     ======================================================================== */
+  var EMAIL_ADDR = 'shivprasad.sanap@example.com';
+
+  var ROLES = [
+    'GCP Data Engineer',
+    'Lakehouse Architect (BigQuery · Iceberg · Snowflake)',
+    'Airflow & dbt Specialist',
+    'AI-Augmented ETL Developer'
+  ];
+
+  var ARCH_NODES = {
+    pubsub: {
+      badge: 'INGESTION LAYER',
+      title: 'Pub/Sub Streaming & BigQuery Subscription',
+      desc: 'Captures real-time full-snapshot access and event payloads from upstream application publishers with native BigQuery Subscription metadata write enabled.',
+      patterns: [
+        'Write-metadata enabled: captures subscription_name, message_id, and publish_time for deterministic tie-breaking.',
+        'Decouples upstream publishers from downstream warehouse compute spikes.',
+        'Supports shared multi-subscriber topics without cross-pipeline schema coupling.'
+      ]
+    },
+    bq_raw: {
+      badge: 'LANDING ZONE',
+      title: 'BigQuery Raw Layer (Partitioned & Governed)',
+      desc: 'Append-only raw landing table partitioned by DAY(publish_time) with column-level PII policy tags protecting sensitive email/payload fields.',
+      patterns: [
+        '72-hour rolling partition pruning (publish_time >= NOW - 72h) minimizes bytes scanned per incremental run.',
+        'Row-level & column-level PII policy tagging (merchant_email) enforced at the catalog layer.',
+        'Malformed JSON and missing-key records are safely isolated without breaking batch runs.'
+      ]
+    },
+    composer: {
+      badge: 'ORCHESTRATION & MERGE ENGINE',
+      title: 'Cloud Composer (Airflow) & Idempotent MERGE',
+      desc: 'High-frequency DAG (max_active_runs=1) executing a dry-run-gated Bash/SQL MERGE pipeline with Cloud SQL audit logging and deterministic state resolution.',
+      patterns: [
+        'Epoch-based stale-event guard: rejects out-of-order or older messages against stored max_epoch.',
+        'Order-independent JSON fingerprint delta detection (TO_JSON_STRING) ensures 0-row no-op reruns.',
+        'Dry-run validation gate (exit 1) before execution (exit 2) + Cloud SQL data_audit telemetry.'
+      ]
+    },
+    iceberg: {
+      badge: 'OPEN TABLE LAKEHOUSE',
+      title: 'BigQuery-Managed Apache Iceberg (BigLake)',
+      desc: 'Open-format Parquet storage clustered by primary access keys, enabling cross-engine interoperability without duplicating terabytes of raw files.',
+      patterns: [
+        'Zero-duplicate ingestion: atomic per-entity DELETE + INSERT replacement on fingerprint change.',
+        'Revocation placeholder handling preserves tombstones and epoch lineage for downstream consumers.',
+        'Automated BigLake IcebergMetadataUpdate exports fresh snapshots to GCS for Snowflake.'
+      ]
+    },
+    snowflake: {
+      badge: 'CONFORMED WAREHOUSE',
+      title: 'Snowflake Conformed Layer (Iceberg Refresh)',
+      desc: 'Consumes exported BigLake Iceberg metadata directly via SnowflakeRefreshIceberg, exposing low-latency conformed tables to enterprise analytics.',
+      patterns: [
+        'Zero-copy cross-cloud consumption between GCP BigLake storage and Snowflake compute.',
+        'Synchronized metadata refresh guarantees transactional snapshot consistency.',
+        'Automated App Engine / landing trigger dispatches downstream reporting orchestration.'
+      ]
+    },
+    dbt: {
+      badge: 'ANALYTICS TRANSFORMATION',
+      title: 'dbt Cloud Incremental Modeling & Data Marts',
+      desc: 'Triggered automatically via deferrable Airflow operators to build tested, documented business marts and entitlement views.',
+      patterns: [
+        'Deferrable DbtCloudRunJobOperator polling minimizes Airflow worker slot consumption.',
+        'Schema tests, uniqueness assertions, and freshness checks validate every production load.',
+        'Delivers audit-ready conformed datasets for BI dashboards and downstream APIs.'
+      ]
+    }
+  };
+
+  var PROJECTS = [
+    {
+      id: 'partner-lakehouse',
+      title: 'Real-Time Partner Hierarchy Access Lakehouse',
+      categories: ['GCP & BigQuery', 'Apache Iceberg', 'Snowflake', 'dbt & Airflow'],
+      summary: 'End-to-end streaming lakehouse syncing partner access entitlements from Pub/Sub to BigQuery-managed Iceberg, Snowflake, and dbt Cloud.',
+      tags: ['Pub/Sub', 'BigQuery', 'Apache Iceberg', 'Airflow', 'Snowflake', 'dbt'],
+      problem: 'Upstream access-review events arrived out-of-order, included mixed partner/merchant payloads, and required near-real-time synchronization across both BigQuery and Snowflake with strict zero-duplicate and revocation-tracking guarantees.',
+      solution: 'Engineered a 5-minute Cloud Composer DAG driving an idempotent BigQuery MERGE into a BigLake-managed Iceberg table. Implemented 72h partition pruning, epoch-based stale-event guards, JSON fingerprint delta checks, placeholder rows for revocations, BigLake metadata export, Snowflake Iceberg refresh, and automated dbt Cloud job triggers.',
+      impact: [
+        '100% idempotent reruns (0 affected rows on duplicate/unchanged snapshots) verified across 26 automated unit test scenarios.',
+        'Eliminated cross-cloud data duplication by sharing BigLake Apache Iceberg Parquet snapshots directly with Snowflake.',
+        'Protected shared topics and downstream tables from malformed JSON and stale epoch regressions.'
+      ]
+    },
+    {
+      id: 'merchant-dispute',
+      title: 'Enterprise Merchant Hierarchy & Dispute Analytics Pipeline',
+      categories: ['GCP & BigQuery', 'dbt & Airflow'],
+      summary: 'Multi-region settlement, fee, and dispute reporting pipeline built on BigQuery, Cloud Composer, and PySpark with deterministic surrogate keys.',
+      tags: ['BigQuery', 'Cloud Composer', 'PySpark', 'SQL', 'SCD Type 2'],
+      problem: 'Global payment reporting suffered from inconsistent merchant hierarchy joins, duplicate settlement records across regions, and slow full-table rebuilds.',
+      solution: 'Designed a modular PySpark and BigQuery SQL framework using deterministic surrogate key generation, window-based deduplication, and partitioned incremental loads orchestrated via Cloud Composer.',
+      impact: [
+        'Reduced daily batch processing latency and compute spend through partition pruning and clustered target tables.',
+        'Delivered consistent multi-region settlement, dispute, and fee reporting with full historical auditability.',
+        'Standardized reusable Airflow task wrappers for retries, alerting, and metadata auditing.'
+      ]
+    },
+    {
+      id: 'snowflake-snowpipe',
+      title: 'Snowflake Bronze-to-Conformed Ingestion & Snowpipe Automation',
+      categories: ['Snowflake', 'dbt & Airflow', 'GenAI & Automation'],
+      summary: 'Metadata-driven Snowpipe and External Table ingestion framework feeding incremental dbt models and Cortex-assisted data exploration.',
+      tags: ['Snowflake', 'Snowpipe', 'External Tables', 'dbt', 'Cortex'],
+      problem: 'Onboarding new landing feeds into Snowflake required repetitive manual DDL creation, custom copy commands, and inconsistent transformation logic.',
+      solution: 'Built a schema-driven Bronze-to-Conformed ingestion pipeline combining Snowpipe auto-ingest, External Tables, and parameterized incremental dbt models, augmented with Snowflake Cortex workflows for rapid schema profiling.',
+      impact: [
+        'Accelerated onboarding of new conformed datasets from days to hours with standardized dbt testing.',
+        'Ensured continuous micro-batch freshness from cloud object storage into analytics-ready schemas.',
+        'Improved warehouse credit efficiency via incremental merge strategies and clustering keys.'
+      ]
+    },
+    {
+      id: 'dq-governance',
+      title: 'Data Quality, Reconciliation & Governance Engine',
+      categories: ['GCP & BigQuery', 'GenAI & Automation'],
+      summary: 'Automated SQL dry-run validation gates, PII policy-tag governance, and source-to-target reconciliation engine for regulated FinTech pipelines.',
+      tags: ['BigQuery', 'Python', 'Bash', 'Policy Tags', 'Cloud SQL'],
+      problem: 'Production ETL releases needed automated pre-flight safety checks, PII access enforcement, and verifiable row-count telemetry before promotion from DEV to QA and PROD.',
+      solution: 'Created Bash and Python execution wrappers that perform BigQuery dry-run syntax/cost validation, log DML statistics to Cloud SQL audit tables, enforce column-level PII policy tags, and run automated source-to-target reconciliation queries.',
+      impact: [
+        'Caught schema drift and SQL regressions prior to execution via mandatory dry-run gates.',
+        'Provided auditable lineage of inserted/deleted row counts per job batch across environments.',
+        'Enforced fine-grained PII governance without degrading query performance.'
+      ]
+    },
+    {
+      id: 'ai-etl-copilot',
+      title: 'AI-Augmented ETL Validation & Pipeline Copilot Workflows',
+      categories: ['GenAI & Automation', 'GCP & BigQuery', 'Snowflake'],
+      summary: 'GenAI-assisted engineering workflows for source-to-target mapping audits, synthetic unit-test generation, and self-healing Bash wrappers.',
+      tags: ['GenAI', 'Python', 'SQL', 'Bash', 'Cortex Code'],
+      problem: 'Writing exhaustive edge-case unit tests (null epochs, out-of-order events, revocations) and auditing large SQL mappings manually was time-consuming and error-prone.',
+      solution: 'Developed structured GenAI prompt templates and Python helpers that parse target schemas and MERGE logic to generate synthetic JSON test payloads, expected-state matrices, and automated verification SQL suites.',
+      impact: [
+        'Cut unit-test authoring and documentation time dramatically while expanding edge-case coverage.',
+        'Standardized interactive HTML unit-test evidence reports for stakeholder and QA sign-off.',
+        'Demonstrated practical, production-safe adoption of Role-Based GenAI engineering patterns.'
+      ]
+    }
+  ];
+
+  var SKILL_GROUPS = {
+    'Cloud & Storage': [
+      { name: 'Google BigQuery (Partitioning, Clustering, MERGE)', pct: 95 },
+      { name: 'BigLake & Apache Iceberg (Parquet / Metadata)', pct: 90 },
+      { name: 'Google Cloud Storage (GCS) & IAM / Policy Tags', pct: 90 },
+      { name: 'Cloud Pub/Sub (Streaming & BQ Subscriptions)', pct: 88 },
+      { name: 'Cloud Dataflow & Dataproc', pct: 78 }
+    ],
+    'Warehousing & Modeling': [
+      { name: 'Snowflake (Iceberg Tables, Snowpipe, External Tables)', pct: 88 },
+      { name: 'dbt Core & dbt Cloud (Incremental & Testing)', pct: 86 },
+      { name: 'Dimensional Modeling (Star Schema, SCD Type 2)', pct: 92 },
+      { name: 'Dataform & Lakehouse Governance', pct: 82 }
+    ],
+    'Orchestration & Languages': [
+      { name: 'Advanced SQL (BigQuery & Snowflake Dialects)', pct: 96 },
+      { name: 'Cloud Composer / Apache Airflow (DAGs & Wrappers)', pct: 92 },
+      { name: 'Python & PySpark', pct: 85 },
+      { name: 'Bash / Linux Automation & Dry-Run Gates', pct: 88 }
+    ],
+    'AI & DevOps': [
+      { name: 'GenAI-Augmented ETL & Prompt Engineering', pct: 88 },
+      { name: 'Snowflake Cortex & AI Validation Workflows', pct: 82 },
+      { name: 'CI/CD Pipelines (Harness, Git, Automated QA)', pct: 85 },
+      { name: 'Observability & Cloud SQL Audit Logging', pct: 86 }
+    ]
+  };
+
+  var RADAR_AXES = [
+    { label: 'BigQuery / SQL', val: 0.96 },
+    { label: 'Iceberg / Lakehouse', val: 0.90 },
+    { label: 'Airflow / Orchestration', val: 0.92 },
+    { label: 'Snowflake / dbt', val: 0.87 },
+    { label: 'Python / Bash', val: 0.86 },
+    { label: 'GenAI / Governance', val: 0.88 }
+  ];
+
+  /* ========================================================================
+     UTILITIES (TOAST, CLIPBOARD, THEME)
+     ======================================================================== */
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  var toastTimer = null;
+  function showToast(msg) {
+    var t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  function copyToClipboard(text, label) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast((label || 'Copied') + ': ' + text);
+    } catch (e) {
+      showToast('Copy unavailable in this browser context.');
+    }
+    document.body.removeChild(ta);
+  }
+
+  function applyTheme(mode) {
+    document.documentElement.setAttribute('data-theme', mode);
+    $('#themeIcon').textContent = mode === 'dark' ? '☀' : '☾';
+    try { localStorage.setItem('shiv-portfolio-theme', mode); } catch (e) {}
+  }
+
+  function toggleTheme() {
+    var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(cur);
+    showToast('Switched to ' + cur + ' mode');
+    return cur;
+  }
+
+  (function initTheme() {
+    var saved = 'dark';
+    try { saved = localStorage.getItem('shiv-portfolio-theme') || 'dark'; } catch (e) {}
+    applyTheme(saved);
+  })();
+
+  $('#themeBtn').addEventListener('click', toggleTheme);
+  $('#printBtn').addEventListener('click', function () { window.print(); });
+  $('#heroCopyEmail').addEventListener('click', function () { copyToClipboard(EMAIL_ADDR, 'Email copied'); });
+
+  $$('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      copyToClipboard(btn.getAttribute('data-copy'), 'Copied to clipboard');
+    });
+  });
+
+  /* Mobile Drawer */
+  var drawer = $('#mobileDrawer');
+  $('#menuToggle').addEventListener('click', function () {
+    drawer.classList.toggle('open');
+  });
+  $$('a', drawer).forEach(function (a) {
+    a.addEventListener('click', function () { drawer.classList.remove('open'); });
+  });
+
+  /* ========================================================================
+     SCROLL PROGRESS, NAV SPY & REVEAL ANIMATIONS
+     ======================================================================== */
+  window.addEventListener('scroll', function () {
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - doc.clientHeight;
+    var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    $('#scrollProgress').style.width = pct.toFixed(1) + '%';
+  }, { passive: true });
+
+  if ('IntersectionObserver' in window) {
+    var revObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('visible');
+          revObs.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    $$('.reveal').forEach(function (el) { revObs.observe(el); });
+
+    var navLinks = $$('.nav-links a');
+    var navMap = {};
+    navLinks.forEach(function (a) { navMap[a.getAttribute('href').slice(1)] = a; });
+    var spyObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && navMap[en.target.id]) {
+          navLinks.forEach(function (l) { l.classList.remove('active'); });
+          navMap[en.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-25% 0px -65% 0px' });
+    $$('main section[id]').forEach(function (s) { spyObs.observe(s); });
+  } else {
+    $$('.reveal').forEach(function (el) { el.classList.add('visible'); });
+  }
+
+  /* ========================================================================
+     HERO TYPING EFFECT & ANIMATED CANVAS
+     ======================================================================== */
+  (function initTyping() {
+    var el = $('#typedRole');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { el.textContent = ROLES[0]; return; }
+
+    var rIdx = 0, cIdx = 0, deleting = false;
+    function tick() {
+      var word = ROLES[rIdx];
+      if (!deleting) {
+        cIdx++;
+        el.textContent = word.slice(0, cIdx);
+        if (cIdx === word.length) {
+          deleting = true;
+          setTimeout(tick, 1750);
+          return;
+        }
+        setTimeout(tick, 46);
+      } else {
+        cIdx--;
+        el.textContent = word.slice(0, cIdx);
+        if (cIdx === 0) {
+          deleting = false;
+          rIdx = (rIdx + 1) % ROLES.length;
+          setTimeout(tick, 280);
+          return;
+        }
+        setTimeout(tick, 24);
+      }
+    }
+    tick();
+  })();
+
+  (function initHeroCanvas() {
+    var canvas = $('#heroCanvas');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var nodes = [], packets = [], w = 0, h = 0;
+
+    function resize() {
+      var rect = canvas.parentElement.getBoundingClientRect();
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = rect.width;
+      h = rect.height;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      var count = Math.max(16, Math.min(34, Math.floor(w / 42)));
+      nodes = [];
+      for (var i = 0; i < count; i++) {
+        nodes.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          r: 2 + Math.random() * 2
+        });
+      }
+      packets = [];
+      for (var p = 0; p < 10; p++) {
+        packets.push({ a: Math.floor(Math.random() * count), b: Math.floor(Math.random() * count), t: Math.random() });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      var lineCol = dark ? 'rgba(56, 189, 248, 0.14)' : 'rgba(2, 132, 199, 0.14)';
+      var nodeCol = dark ? 'rgba(129, 140, 248, 0.55)' : 'rgba(79, 70, 229, 0.45)';
+      var pktCol  = dark ? '#34d399' : '#059669';
+
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        if (!reduce) {
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0 || n.x > w) n.vx *= -1;
+          if (n.y < 0 || n.y > h) n.vy *= -1;
+        }
+        for (var j = i + 1; j < nodes.length; j++) {
+          var m = nodes[j];
+          var dist = Math.hypot(n.x - m.x, n.y - m.y);
+          if (dist < 165) {
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(m.x, m.y);
+            ctx.strokeStyle = lineCol;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = nodeCol;
+        ctx.fill();
+      }
+
+      if (!reduce) {
+        packets.forEach(function (pk) {
+          var a = nodes[pk.a], b = nodes[pk.b];
+          if (!a || !b || a === b) return;
+          if (Math.hypot(a.x - b.x, a.y - b.y) > 220) {
+            pk.b = (pk.b + 1) % nodes.length;
+            return;
+          }
+          pk.t += 0.012;
+          if (pk.t >= 1) {
+            pk.t = 0;
+            pk.a = pk.b;
+            pk.b = Math.floor(Math.random() * nodes.length);
+          }
+          var px = a.x + (b.x - a.x) * pk.t;
+          var py = a.y + (b.y - a.y) * pk.t;
+          ctx.beginPath();
+          ctx.arc(px, py, 2.8, 0, Math.PI * 2);
+          ctx.fillStyle = pktCol;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+  })();
+
+  /* ========================================================================
+     1. ARCHITECTURE BLUEPRINT EXPLORER
+     ======================================================================== */
+  function renderInspector(key) {
+    var data = ARCH_NODES[key] || ARCH_NODES.pubsub;
+    $$('.arch-node').forEach(function (n) {
+      n.classList.toggle('selected', n.getAttribute('data-node') === key);
+    });
+    var listHtml = data.patterns.map(function (p) { return '<li>' + p + '</li>'; }).join('');
+    $('#archInspector').innerHTML =
+      '<div>' +
+        '<span class="pill pill-cyan" style="margin-bottom:8px">' + data.badge + '</span>' +
+        '<h3>' + data.title + '</h3>' +
+        '<p>' + data.desc + '</p>' +
+      '</div>' +
+      '<div>' +
+        '<div class="mono" style="font-size:11.5px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Production Engineering Patterns</div>' +
+        '<ul class="pattern-list">' + listHtml + '</ul>' +
+      '</div>';
+  }
+
+  $$('.arch-node').forEach(function (node) {
+    var key = node.getAttribute('data-node');
+    node.addEventListener('click', function () { renderInspector(key); });
+    node.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); renderInspector(key); }
+    });
+  });
+  renderInspector('pubsub');
+
+  /* ========================================================================
+     2. INTERACTIVE CLI / SQL TERMINAL ("ShivOS Terminal")
+     ======================================================================== */
+  var termOut = $('#termOutput');
+  var termIn = $('#termInput');
+
+  function appendTerm(html) {
+    var div = document.createElement('div');
+    div.className = 'term-line';
+    div.innerHTML = html;
+    termOut.appendChild(div);
+    termOut.scrollTop = termOut.scrollHeight;
+  }
+
+  function runTerminalCmd(rawCmd) {
+    var cmd = (rawCmd || '').trim();
+    if (!cmd) return;
+    appendTerm('<span class="term-prompt">shiv@lakehouse:~$</span> <span class="term-cmd">' + cmd.replace(/</g, '&lt;') + '</span>');
+
+    var norm = cmd.toLowerCase().replace(/\s+/g, ' ');
+    if (norm === 'clear') {
+      termOut.innerHTML = '';
+      return;
+    }
+    if (norm === 'help') {
+      appendTerm(
+        '<span class="term-accent">Available Commands:</span>\n' +
+        '  whoami                      Profile summary &amp; location\n' +
+        '  skills                      Core GCP / Iceberg / Snowflake / dbt stack\n' +
+        '  projects                    List enterprise lakehouse case studies\n' +
+        '  certifications              Verified 2026 credentials\n' +
+        '  SELECT * FROM experience;   Query career timeline as ASCII table\n' +
+        '  contact                     Direct email, LinkedIn &amp; GitHub\n' +
+        '  theme                       Toggle Dark / Light mode\n' +
+        '  clear                       Clear terminal buffer'
+      );
+      return;
+    }
+    if (norm === 'whoami') {
+      appendTerm(
+        '<span class="term-accent">Name:</span>     Shivprasad Sanap (Shiv)\n' +
+        '<span class="term-accent">Role:</span>     Senior-Track GCP Data Engineer &amp; ETL Developer (3+ yrs)\n' +
+        '<span class="term-accent">Base:</span>     Pune, Maharashtra, India\n' +
+        '<span class="term-accent">Focus:</span>    Idempotent Lakehouses · BigQuery · BigLake Iceberg · Snowflake · Airflow · dbt\n' +
+        '<span class="term-accent">Creative:</span> Founder @ Shivaay AI Studios (AI Music &amp; 3D Visuals)'
+      );
+      return;
+    }
+    if (norm === 'skills') {
+      appendTerm(
+        '<span class="term-accent">[Cloud &amp; Lakehouse]</span>  BigQuery, BigLake, Apache Iceberg, GCS, Pub/Sub, Dataflow\n' +
+        '<span class="term-accent">[Warehousing]</span>        Snowflake, Snowpipe, External Tables, dbt, Dataform, SCD Type 2\n' +
+        '<span class="term-accent">[Orchestration]</span>      Cloud Composer (Airflow), SQL, Python, PySpark, Bash\n' +
+        '<span class="term-accent">[AI &amp; Governance]</span>    GenAI Engineering, Cortex, PII Policy Tags, CI/CD, Harness'
+      );
+      return;
+    }
+    if (norm === 'projects') {
+      var lines = PROJECTS.map(function (p, i) {
+        return '  0' + (i + 1) + '. <span class="term-accent">' + p.title + '</span> [' + p.tags.slice(0, 4).join(', ') + ']';
+      }).join('\n');
+      appendTerm(lines + '\n<span class="term-info">Tip: Scroll to Section 03 or press Ctrl+K to open any project deep-dive modal.</span>');
+      return;
+    }
+    if (norm === 'certifications') {
+      appendTerm(
+        '  ✓ <span class="term-accent">[2026]</span> Role-Based GenAI Data Engineer / ETL Developer Certification\n' +
+        '  ✓ <span class="term-accent">[2026]</span> Snowflake Technical Engineering Trainings (Iceberg, Snowpipe, dbt, Cortex)'
+      );
+      return;
+    }
+    if (norm === 'select * from experience;' || norm === 'select * from experience') {
+      appendTerm(
+        '<span class="term-info">Query executed in 0.04s · 2 rows returned (partition pruned)</span>\n' +
+        '+--------------+----------------------------------+-------------------------------------+\n' +
+        '| period       | role                             | key_stack                           |\n' +
+        '+--------------+----------------------------------+-------------------------------------+\n' +
+        '| 2024-Present | GCP Data Engineer (Lakehouse)    | BigQuery, Iceberg, Composer, SF, dbt|\n' +
+        '| 2023-2024    | ETL & Data Engineer (FinTech)    | BigQuery, PySpark, Snowpipe, Bash   |\n' +
+        '+--------------+----------------------------------+-------------------------------------+'
+      );
+      return;
+    }
+    if (norm === 'contact') {
+      appendTerm(
+        '<span class="term-accent">Email:</span>    ' + EMAIL_ADDR + '\n' +
+        '<span class="term-accent">LinkedIn:</span> https://linkedin.com/in/shivprasad-sanap\n' +
+        '<span class="term-accent">GitHub:</span>   https://github.com/shivprasad-sanap'
+      );
+      return;
+    }
+    if (norm === 'theme') {
+      var mode = toggleTheme();
+      appendTerm('<span class="term-info">Theme switched to: ' + mode + '</span>');
+      return;
+    }
+    appendTerm('<span class="term-err">Command not recognized:</span> "' + cmd.replace(/</g, '&lt;') + '". Type <span class="term-accent">help</span> to view available commands.');
+  }
+
+  $('#termForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    runTerminalCmd(termIn.value);
+    termIn.value = '';
+  });
+  $$('.cmd-chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      runTerminalCmd(chip.getAttribute('data-cmd'));
+    });
+  });
+
+  // Initial terminal welcome
+  appendTerm('<span class="term-accent">ShivOS Lakehouse Shell v2026.11</span> — Ready. Type <span class="term-warn">help</span> or click a quick command chip above.');
+  runTerminalCmd('whoami');
+
+  /* ========================================================================
+     3. FILTERABLE PROJECTS & DEEP-DIVE MODAL
+     ======================================================================== */
+  var PROJECT_CATS = ['All', 'GCP & BigQuery', 'Apache Iceberg', 'Snowflake', 'dbt & Airflow', 'GenAI & Automation'];
+  var activeProjCat = 'All';
+
+  function renderProjectFilters() {
+    var wrap = $('#projectFilters');
+    wrap.innerHTML = '';
+    PROJECT_CATS.forEach(function (cat) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'filter-pill' + (cat === activeProjCat ? ' active' : '');
+      btn.textContent = cat;
+      btn.addEventListener('click', function () {
+        activeProjCat = cat;
+        renderProjectFilters();
+        renderProjects();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
+  function openProjectModal(proj) {
+    $('#pmCat').textContent = proj.categories[0];
+    $('#pmTitle').textContent = proj.title;
+    $('#pmTags').innerHTML = proj.tags.map(function (t) { return '<span class="pill">' + t + '</span>'; }).join('');
+    $('#pmProblem').textContent = proj.problem;
+    $('#pmSolution').textContent = proj.solution;
+    $('#pmImpact').innerHTML = proj.impact.map(function (i) { return '<li style="margin-bottom:6px">' + i + '</li>'; }).join('');
+    $('#projectModal').classList.add('open');
+  }
+
+  function renderProjects() {
+    var grid = $('#projectsGrid');
+    grid.innerHTML = '';
+    var list = activeProjCat === 'All'
+      ? PROJECTS
+      : PROJECTS.filter(function (p) { return p.categories.indexOf(activeProjCat) !== -1; });
+
+    list.forEach(function (p) {
+      var card = document.createElement('article');
+      card.className = 'card card-hover project-card';
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.innerHTML =
+        '<div>' +
+          '<div class="project-top">' +
+            '<span class="pill pill-cyan">' + p.categories[0] + '</span>' +
+            '<span class="mono" style="font-size:11px;color:var(--muted)">CASE STUDY</span>' +
+          '</div>' +
+          '<h3>' + p.title + '</h3>' +
+          '<p>' + p.summary + '</p>' +
+        '</div>' +
+        '<div>' +
+          '<div class="tag-row" style="margin-bottom:14px">' +
+            p.tags.map(function (t) { return '<span class="pill">' + t + '</span>'; }).join('') +
+          '</div>' +
+          '<div class="project-foot"><span>Inspect Architecture &amp; Impact</span><span>→</span></div>' +
+        '</div>';
+      card.addEventListener('click', function () { openProjectModal(p); });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProjectModal(p); }
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  $('#pmClose').addEventListener('click', function () { $('#projectModal').classList.remove('open'); });
+  $('#projectModal').addEventListener('click', function (e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+
+  renderProjectFilters();
+  renderProjects();
+
+  /* ========================================================================
+     4. INTERACTIVE TECH STACK & SVG RADAR CHART
+     ======================================================================== */
+  var skillKeys = Object.keys(SKILL_GROUPS);
+  var activeSkillTab = skillKeys[0];
+
+  function renderSkills() {
+    var tabs = $('#skillTabs');
+    tabs.innerHTML = '';
+    skillKeys.forEach(function (k) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'filter-pill' + (k === activeSkillTab ? ' active' : '');
+      btn.textContent = k;
+      btn.addEventListener('click', function () {
+        activeSkillTab = k;
+        renderSkills();
+      });
+      tabs.appendChild(btn);
+    });
+
+    var bars = $('#skillBars');
+    bars.innerHTML = SKILL_GROUPS[activeSkillTab].map(function (s) {
+      return (
+        '<div class="skill-row">' +
+          '<div class="skill-meta"><strong>' + s.name + '</strong><span>' + s.pct + '%</span></div>' +
+          '<div class="skill-track"><div class="skill-fill" style="width:' + s.pct + '%"></div></div>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  function renderRadar() {
+    var svg = $('#radarSvg');
+    var NS = 'http://www.w3.org/2000/svg';
+    var cx = 160, cy = 148, R = 96, n = RADAR_AXES.length;
+    svg.innerHTML = '';
+
+    function el(tag, attrs) {
+      var node = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { node.setAttribute(k, attrs[k]); });
+      svg.appendChild(node);
+      return node;
+    }
+
+    // Concentric rings
+    [0.25, 0.5, 0.75, 1].forEach(function (scale) {
+      var pts = [];
+      for (var i = 0; i < n; i++) {
+        var ang = (Math.PI * 2 * i) / n - Math.PI / 2;
+        pts.push((cx + Math.cos(ang) * R * scale).toFixed(1) + ',' + (cy + Math.sin(ang) * R * scale).toFixed(1));
+      }
+      el('polygon', { points: pts.join(' '), fill: 'none', stroke: 'var(--border)', 'stroke-width': '1' });
+    });
+
+    // Axis spokes & labels
+    var dataPts = [];
+    RADAR_AXES.forEach(function (ax, i) {
+      var ang = (Math.PI * 2 * i) / n - Math.PI / 2;
+      var x2 = cx + Math.cos(ang) * R;
+      var y2 = cy + Math.sin(ang) * R;
+      el('line', { x1: cx, y1: cy, x2: x2.toFixed(1), y2: y2.toFixed(1), stroke: 'var(--border)', 'stroke-width': '1' });
+
+      var lx = cx + Math.cos(ang) * (R + 22);
+      var ly = cy + Math.sin(ang) * (R + 18);
+      var t = el('text', {
+        x: lx.toFixed(1),
+        y: (ly + 4).toFixed(1),
+        'text-anchor': Math.abs(Math.cos(ang)) < 0.2 ? 'middle' : (Math.cos(ang) > 0 ? 'start' : 'end'),
+        fill: 'var(--muted)',
+        'font-size': '10.5',
+        'font-family': 'var(--font-mono)'
+      });
+      t.textContent = ax.label;
+
+      dataPts.push((cx + Math.cos(ang) * R * ax.val).toFixed(1) + ',' + (cy + Math.sin(ang) * R * ax.val).toFixed(1));
+    });
+
+    // Capability polygon
+    el('polygon', {
+      points: dataPts.join(' '),
+      fill: 'var(--cyan-soft)',
+      stroke: 'var(--cyan)',
+      'stroke-width': '2.2'
+    });
+
+    // Vertices
+    dataPts.forEach(function (pt) {
+      var xy = pt.split(',');
+      el('circle', { cx: xy[0], cy: xy[1], r: '3.6', fill: 'var(--emerald)' });
+    });
+  }
+
+  renderSkills();
+  renderRadar();
+
+  /* ========================================================================
+     7. COMMAND PALETTE (CTRL+K / CMD+K)
+     ======================================================================== */
+  var cmdModal = $('#cmdModal');
+  var cmdInput = $('#cmdInput');
+  var cmdList = $('#cmdList');
+  var cmdIdx = 0;
+
+  var COMMANDS = [
+    { label: 'Go to Architecture Blueprint', meta: 'Section 01', run: function () { location.hash = '#architecture'; } },
+    { label: 'Open ShivOS Interactive Terminal', meta: 'Section 02', run: function () { location.hash = '#terminal'; setTimeout(function () { termIn.focus(); }, 250); } },
+    { label: 'Go to Enterprise Projects', meta: 'Section 03', run: function () { location.hash = '#projects'; } },
+    { label: 'Go to Tech Stack & Radar Matrix', meta: 'Section 04', run: function () { location.hash = '#skills'; } },
+    { label: 'Go to Experience & Certifications', meta: 'Section 05', run: function () { location.hash = '#experience'; } },
+    { label: 'Go to Beyond Code — Shivaay AI Studios', meta: 'Section 06', run: function () { location.hash = '#creative'; } },
+    { label: 'Go to Contact & Direct Channels', meta: 'Section 07', run: function () { location.hash = '#contact'; } },
+    { label: 'Toggle Dark / Light Theme', meta: 'Action', run: function () { toggleTheme(); } },
+    { label: 'Print / Save PDF Resume', meta: 'Action', run: function () { window.print(); } },
+    { label: 'Copy Contact Email', meta: 'Action', run: function () { copyToClipboard(EMAIL_ADDR, 'Email copied'); } }
+  ].concat(PROJECTS.map(function (p) {
+    return { label: 'Project: ' + p.title, meta: 'Case Study', run: function () { openProjectModal(p); } };
+  }));
+
+  var filteredCmds = COMMANDS.slice();
+
+  function renderCmdList() {
+    var q = cmdInput.value.trim().toLowerCase();
+    filteredCmds = COMMANDS.filter(function (c) {
+      return !q || c.label.toLowerCase().indexOf(q) !== -1 || c.meta.toLowerCase().indexOf(q) !== -1;
+    });
+    if (cmdIdx >= filteredCmds.length) cmdIdx = 0;
+    cmdList.innerHTML = '';
+
+    if (!filteredCmds.length) {
+      cmdList.innerHTML = '<div style="padding:14px;color:var(--muted);font-size:13px">No matching commands found.</div>';
+      return;
+    }
+    filteredCmds.forEach(function (c, i) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cmd-item' + (i === cmdIdx ? ' active' : '');
+      btn.innerHTML = '<span>' + c.label + '</span><small>' + c.meta + '</small>';
+      btn.addEventListener('click', function () {
+        closeCmdPalette();
+        c.run();
+      });
+      cmdList.appendChild(btn);
+    });
+  }
+
+  function openCmdPalette() {
+    cmdModal.classList.add('open');
+    cmdInput.value = '';
+    cmdIdx = 0;
+    renderCmdList();
+    setTimeout(function () { cmdInput.focus(); }, 40);
+  }
+
+  function closeCmdPalette() {
+    cmdModal.classList.remove('open');
+  }
+
+  $('#cmdBtn').addEventListener('click', openCmdPalette);
+  cmdInput.addEventListener('input', function () { cmdIdx = 0; renderCmdList(); });
+  cmdModal.addEventListener('click', function (e) { if (e.target === cmdModal) closeCmdPalette(); });
+
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (cmdModal.classList.contains('open')) closeCmdPalette();
+      else openCmdPalette();
+      return;
+    }
+    if (e.key === 'Escape') {
+      closeCmdPalette();
+      $('#projectModal').classList.remove('open');
+      return;
+    }
+    if (cmdModal.classList.contains('open')) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        cmdIdx = (cmdIdx + 1) % Math.max(1, filteredCmds.length);
+        renderCmdList();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        cmdIdx = (cmdIdx - 1 + filteredCmds.length) % Math.max(1, filteredCmds.length);
+        renderCmdList();
+      } else if (e.key === 'Enter' && filteredCmds[cmdIdx]) {
+        e.preventDefault();
+        var act = filteredCmds[cmdIdx];
+        closeCmdPalette();
+        act.run();
+      }
+    }
+  });
+
+  /* ========================================================================
+     8. CONTACT FORM VALIDATION
+     ======================================================================== */
+  $('#contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = $('#cName').value.trim();
+    var email = $('#cEmail').value.trim();
+    var msg = $('#cMsg').value.trim();
+    var ok = true;
+
+    $('#errName').style.display = name.length >= 2 ? 'none' : (ok = false, 'block');
+    $('#errEmail').style.display = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'none' : (ok = false, 'block');
+    $('#errMsg').style.display = msg.length >= 10 ? 'none' : (ok = false, 'block');
+
+    if (!ok) return;
+    this.reset();
+    showToast('Message queued for Shivprasad Sanap — thank you for reaching out!');
+  });
+})();
+</script>
+</body>
+</html>
